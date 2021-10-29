@@ -1,0 +1,11 @@
+﻿@model List<Movie>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@foreach (var movie in Model)
+{
+    <li>
+        @Html.ActionLink(movie.Name, "Details", new { movieId = movie.Id, directorId = movie.Director.Id })
+    </li>
+}

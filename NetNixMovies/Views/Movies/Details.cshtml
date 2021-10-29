@@ -1,0 +1,13 @@
+﻿@model Movie
+@{
+    ViewData["Title"] = "Movie Details";
+}
+
+<ul>
+    <li>Title: @Model.Name</li>
+    <li>Release date: @Model.ReleaseDate</li>
+    <li>Short description: @Model.ShortDescription</li>
+    <li>Description: @Model.Description</li>
+    <li>Image: @Model.ImageUrl</li>
+    <li>Director: @Html.ActionLink(Model.Director.Name, "Details", "Directors", new { id = Model.Director.Id })</li>
+</ul>
