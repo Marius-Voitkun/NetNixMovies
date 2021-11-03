@@ -20,7 +20,7 @@ namespace NetNixMovies.Controllers
 
         public async Task<IActionResult> Details(string movieId, string directorId)
         {
-            return View(await _moviesService.GetMovieAsync(movieId, directorId));
+            return View(await _moviesService.GetMovieDetailsViewModelAsync(movieId, directorId));
         }
     }
 }

@@ -1,13 +1,35 @@
-﻿@model Movie
+﻿@model NetNixMovies.ViewModels.MovieDetailsViewModel
 @{
     ViewData["Title"] = "Movie Details";
 }
 
 <ul>
-    <li>Title: @Model.Name</li>
-    <li>Release date: @Model.ReleaseDate</li>
-    <li>Short description: @Model.ShortDescription</li>
-    <li>Description: @Model.Description</li>
-    <li>Image: @Model.ImageUrl</li>
-    <li>Director: @Html.ActionLink(Model.Director.Name, "Details", "Directors", new { id = Model.Director.Id })</li>
+    <li>Title: @Model.Movie.Name</li>
+    <li>Release date: @Model.Movie.ReleaseDate</li>
+    <li>Short description: @Model.Movie.ShortDescription</li>
+    <li>Description: @Model.Movie.Description</li>
+    <li>Image: @Model.Movie.ImageUrl</li>
+    <li>Director: @Html.ActionLink(Model.Movie.Director.Name, "Details", "Directors", new { id = Model.Movie.Director.Id })</li>
 </ul>
+<button type="button" id="like-btn">Like</button>
+<p>Likes: <span id="likes-count"></span></p>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            let likesCount = @Model.LikesCount;
+
+            let True = true;
+            let False = false;
+            let isLiked = @Model.IsLiked ? true : false;        // Model.IsLiked returns True or False, JS does not recognize this properly
+            document.getElementById('likes-count').innerText = likesCount;
+
+            $("#like-btn").on("click", function () {
+                likesCount += isLiked ? -1 : 1;
+                isLiked = !isLiked;
+                document.getElementById('likes-count').innerText = likesCount;
+            });
+        });
+    </script>
+}
