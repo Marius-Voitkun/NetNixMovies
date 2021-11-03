@@ -1,11 +1,38 @@
 ﻿@model List<Movie>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Upcoming Movies";
 }
 
-@foreach (var movie in Model)
-{
-    <li>
-        @Html.ActionLink(movie.Name, "Details", new { movieId = movie.Id, directorId = movie.Director.Id })
-    </li>
-}
+<h1 class="main-header mb-3">Top 5 Upcoming Movies</h1>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th class="text-center align-middle"></th>
+            <th class="text-center align-middle">Movie title</th>
+            <th class="text-center align-middle">Release date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.Count && i < 5; i++)
+        {
+            var movie = Model[i];
+            <tr>
+                <td class="text-center align-middle">@(i + 1)</td>
+                <td class="align-middle">
+                    @Html.ActionLink(movie.Name, "Details", new { movieId = movie.Id, directorId = movie.Director.Id })
+                </td>
+                <td class="text-center align-middle">@movie.ReleaseDate.ToString("MMMM dd, yyyy")</td>
+            </tr>
+        }
+
+        @if (Model.Count < 5)
+        {
+            <tr>
+                <td></td>
+                <td>There are no more upcoming movies at the moment...</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

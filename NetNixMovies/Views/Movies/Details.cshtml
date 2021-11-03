@@ -1,4 +1,4 @@
-﻿@model NetNixMovies.ViewModels.MovieDetailsViewModel
+﻿@model MovieDetailsViewModel
 @{
     ViewData["Title"] = "Movie Details";
 }
@@ -23,6 +23,7 @@
             let True = true;
             let False = false;
             let isLiked = @Model.IsLiked ? true : false;        // Model.IsLiked returns True or False, JS does not recognize this properly
+
             document.getElementById('likes-count').innerText = likesCount;
 
             $("#like-btn").on("click", function () {

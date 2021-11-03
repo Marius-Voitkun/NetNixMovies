@@ -2,7 +2,9 @@
 using NetNixMovies.Models;
 using NetNixMovies.ViewModels;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NetNixMovies.Services
@@ -20,7 +22,9 @@ namespace NetNixMovies.Services
         {
             var responseString = await _dataService.GetDataFromApiAsync("https://virtserver.swaggerhub.com/BartvdPost/NetNix/0.2.0/soon/");
 
-            return JsonConvert.DeserializeObject<List<Movie>>(responseString);
+            var movies = JsonConvert.DeserializeObject<List<Movie>>(responseString);
+
+            return movies.Where(m => m.ReleaseDate >= DateTime.Today).OrderBy(m => m.ReleaseDate).ToList();
         }
 
         public async Task<MovieDetailsViewModel> GetMovieDetailsViewModelAsync(string movieId, string directorId)
