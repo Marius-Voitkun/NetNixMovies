@@ -1,9 +1,10 @@
 ﻿@model Director
 @{
-    ViewData["Title"] = "Director Details";
+    ViewData["Title"] = Model.Name;
 }
 
-<ul>
-    <li>Name: @Model.Name</li>
-    <li>Date of birth: @Model.DateOfBirth</li>
-</ul>
+<h1 class="main-header mb-3">@Model.Name</h1>
+<p>
+    <span class="font-weight-bold">Date of birth: </span>
+    @Model.DateOfBirth.Value.ToString("MMMM d, yyyy")
+</p>

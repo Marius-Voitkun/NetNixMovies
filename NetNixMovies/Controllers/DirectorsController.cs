@@ -13,9 +13,7 @@ namespace NetNixMovies.Controllers
             _directorsService = directorsService;
         }
 
-        public async Task<IActionResult> Details(string id)
-        {
-            return View(await _directorsService.GetDirectorAsync(id));
-        }
+        public async Task<IActionResult> Details(string id) =>
+            View(await _directorsService.GetDirectorAsync(id));
     }
 }

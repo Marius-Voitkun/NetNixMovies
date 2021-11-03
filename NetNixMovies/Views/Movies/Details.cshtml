@@ -1,36 +1,70 @@
 ﻿@model MovieDetailsViewModel
 @{
-    ViewData["Title"] = "Movie Details";
+    ViewData["Title"] = Model.Movie.Name;
 }
 
-<ul>
-    <li>Title: @Model.Movie.Name</li>
-    <li>Release date: @Model.Movie.ReleaseDate</li>
-    <li>Short description: @Model.Movie.ShortDescription</li>
-    <li>Description: @Model.Movie.Description</li>
-    <li>Image: @Model.Movie.ImageUrl</li>
-    <li>Director: @Html.ActionLink(Model.Movie.Director.Name, "Details", "Directors", new { id = Model.Movie.Director.Id })</li>
-</ul>
-<button type="button" id="like-btn">Like</button>
-<p>Likes: <span id="likes-count"></span></p>
+<div class="row">
+    <div class="col-lg text-center mb-5 mb-lg-0">
+        <img class="img-fluid float-lg-left" src="@Model.Movie.ImageUrl" alt="The poster of the movie" />
+    </div>
+    <div class="col">
+        <h1 class="main-header d-inline-block mt-3 mb-4">@Model.Movie.Name</h1>
+        <div class="float-right mt-3">
+            <p class="d-inline-block mx-3">
+                <i class="fas fa-thumbs-up mr-1"></i>
+                <span id="likes-count"></span>
+            </p>
+            <button class="btn btn-outline-primary" type="button" id="like-btn">
+                <i class="far fa-thumbs-up"></i>
+                Like
+            </button>
+        </div>
+        <p>
+            <span class="font-weight-bold">Release date:</span>
+            @Model.Movie.ReleaseDate.ToString("MMMM d, yyyy")
+        </p>
+        <p>
+            <span class="font-weight-bold">Director:</span>
+            @Html.ActionLink(Model.Movie.Director.Name, "Details", "Directors", new { id = Model.Movie.Director.Id })
+        </p>
+        <p class="text-justify mt-4 mb-4 mb-lg-5">@Model.Movie.ShortDescription</p>
+        <p class="font-italic text-justify">@Model.Movie.Description</p>
+    </div>
+</div>
 
 @section scripts
 {
     <script>
-        $(document).ready(function () {
-            let likesCount = @Model.LikesCount;
+        let likesCount = @Model.LikesCount;
 
-            let True = true;
-            let False = false;
-            let isLiked = @Model.IsLiked ? true : false;        // Model.IsLiked returns True or False, JS does not recognize this properly
+        let True = true;
+        let False = false;
+        let isLiked = @Model.IsLiked ? true : false;        // Model.IsLiked returns True or False, JS recognizes these as variable names
 
-            document.getElementById('likes-count').innerText = likesCount;
+        document.getElementById('likes-count').innerText = likesCount;
+        setLikeBtnClasses();
 
-            $("#like-btn").on("click", function () {
-                likesCount += isLiked ? -1 : 1;
-                isLiked = !isLiked;
-                document.getElementById('likes-count').innerText = likesCount;
+        $("#like-btn").on("click", function () {
+            $.ajax({
+                type: 'POST',
+                url: 'https://virtserver.swaggerhub.com/BartvdPost/NetNix/0.2.0/like',
+                data: {
+                    username: 'User X',
+                    movieId: '@Model.Movie.Id'
+                },
+                dataType: 'html',
+                success: function () {
+                    likesCount += isLiked ? -1 : 1;
+                    isLiked = !isLiked;
+                    setLikeBtnClasses();
+                    document.getElementById('likes-count').innerText = likesCount;
+                }
             });
         });
+
+        function setLikeBtnClasses() {
+            let likeBtnClass = isLiked ? 'btn btn-primary' : 'btn btn-outline-primary';
+            document.getElementById('like-btn').className = likeBtnClass;
+        }
     </script>
 }

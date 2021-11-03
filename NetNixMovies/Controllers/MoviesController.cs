@@ -13,14 +13,10 @@ namespace NetNixMovies.Controllers
             _moviesService = moviesService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            return View(await _moviesService.GetUpcomingMoviesAsync());
-        }
+        public async Task<IActionResult> Index() =>
+            View(await _moviesService.GetUpcomingMoviesAsync());
 
-        public async Task<IActionResult> Details(string movieId, string directorId)
-        {
-            return View(await _moviesService.GetMovieDetailsViewModelAsync(movieId, directorId));
-        }
+        public async Task<IActionResult> Details(string movieId, string directorId) =>
+            View(await _moviesService.GetMovieDetailsViewModelAsync(movieId, directorId));
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model List<Movie>
 @{
-    ViewData["Title"] = "Upcoming Movies";
+    ViewData["Title"] = "Top 5 Upcoming Movies";
 }
 
 <h1 class="main-header mb-3">Top 5 Upcoming Movies</h1>
@@ -21,7 +21,7 @@
                 <td class="align-middle">
                     @Html.ActionLink(movie.Name, "Details", new { movieId = movie.Id, directorId = movie.Director.Id })
                 </td>
-                <td class="text-center align-middle">@movie.ReleaseDate.ToString("MMMM dd, yyyy")</td>
+                <td class="text-center align-middle">@movie.ReleaseDate.ToString("MMMM d, yyyy")</td>
             </tr>
         }
 
